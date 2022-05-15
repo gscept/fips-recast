@@ -17,7 +17,7 @@ fips_begin_lib(Detour)
         DetourNavMesh.h DetourNavMeshQuery.h DetourNode.h DetourStatus.h
     )
     fips_dir(recastnavigation/Detour/Source)
-    fips_files(DetourAlloc.cpp DetourCommon.cpp DetourNode.cpp DetourNavMesh.cpp
+    fips_files(DetourAlloc.cpp DetourAssert.cpp DetourCommon.cpp DetourNode.cpp DetourNavMesh.cpp
         DetourNavMeshQuery.cpp DetourNavMeshBuilder.cpp
     )
 fips_end_lib()
@@ -27,7 +27,7 @@ fips_begin_lib(Recast)
     fips_dir(recastnavigation/Recast/Include)
     fips_files(Recast.h RecastAlloc.h RecastAssert.h)
     fips_dir(recastnavigation/Recast/Source)
-    fips_files(Recast.cpp RecastAlloc.cpp RecastArea.cpp RecastContour.cpp RecastFilter.cpp
+    fips_files(Recast.cpp RecastAlloc.cpp RecastArea.cpp RecastAssert.cpp RecastContour.cpp RecastFilter.cpp
         RecastLayers.cpp RecastMesh.cpp RecastMeshDetail.cpp RecastRasterization.cpp
         RecastRegion.cpp
     )
@@ -77,7 +77,7 @@ fips_begin_lib(DebugUtils)
     fips_files(DebugDraw.cpp DetourDebugDraw.cpp RecastDebugDraw.cpp RecastDump.cpp)
 fips_end_lib()
 
-if (FIPS_MACOS OR FIPS_LINUX OR FIPS_WINDOWS)
+if (NOT FIPS_IMPORT AND (FIPS_MACOS OR FIPS_LINUX OR FIPS_WINDOWS))
     fips_begin_app(RecastDemo cmdline)
         include_directories(
             recastnavigation/RecastDemo/Source
@@ -91,23 +91,23 @@ if (FIPS_MACOS OR FIPS_LINUX OR FIPS_WINDOWS)
             recastnavigation/Recast/Include
         )
         fips_dir(recastnavigation/RecastDemo/Include)
-        fips_files(ChunkyTriMesh.h ConvexVolumeTool.h CrowdTool.h Filelist.h imgui.h
-            imguiRenderGL.h InputGeom.h MeshLoaderObj.h NavMeshPruneTool.h NavMeshTesterTool.h
-            OffMeshConnectionTool.h PerfTimer.h Sample_Debug.h Sample.h SampleInterfaces.h
-            Sample_SoloMesh.h Sample_TempObstacles.h Sample_TileMesh.h SlideShow.h
-            TestCase.h ValueHistory.h
+        fips_files(ChunkyTriMesh.h ConvexVolumeTool.h CrowdTool.h Filelist.h InputGeom.h
+            MeshLoaderObj.h NavMeshPruneTool.h NavMeshTesterTool.h OffMeshConnectionTool.h
+            PerfTimer.h Sample.h SampleInterfaces.h Sample_Debug.h Sample_SoloMesh.h
+            Sample_TempObstacles.h Sample_TileMesh.h TestCase.h ValueHistory.h 
+            imgui.h imguiRenderGL.h
         )
         fips_dir(recastnavigation/RecastDemo/Source)
-        fips_files(ChunkyTriMesh.cpp ConvexVolumeTool.cpp CrowdTool.cpp Filelist.cpp imgui.cpp
-            imguiRenderGL.cpp InputGeom.cpp MeshLoaderObj.cpp NavMeshPruneTool.cpp
-            NavMeshTesterTool.cpp OffMeshConnectionTool.cpp PerfTimer.cpp Sample_Debug.cpp
-            Sample.cpp SampleInterfaces.cpp Sample_SoloMesh.cpp Sample_TempObstacles.cpp
-            Sample_TileMesh.cpp SlideShow.cpp TestCase.cpp ValueHistory.cpp main.cpp
+        fips_files(ChunkyTriMesh.cpp MeshLoaderObj.cpp Sample.cpp Sample_TileMesh.cpp  main.cpp
+            ConvexVolumeTool.cpp NavMeshPruneTool.cpp SampleInterfaces.cpp TestCase.cpp
+            CrowdTool.cpp NavMeshTesterTool.cpp Sample_Debug.cpp ValueHistory.cpp
+            Filelist.cpp OffMeshConnectionTool.cpp Sample_SoloMesh.cpp imgui.cpp
+            InputGeom.cpp PerfTimer.cpp Sample_TempObstacles.cpp  imguiRenderGL.cpp
         )
 
         # use fipsified stb package instead of this
         fips_dir(recastnavigation/RecastDemo/Contrib)
-        fips_files(stb_image.h stb_truetype.h)
+        fips_files(stb_truetype.h)
 
         # add a fipsified fastlz lib instead of this
         fips_dir(recastnavigation/RecastDemo/Contrib/fastlz)
